@@ -157,6 +157,7 @@ export default {
         font-family: verdana !important;
         color: rgba(189, 85, 45, 1) !important;
         font-weight: bold !important;
+        margin-top: -12px !important;
     }
     .text3{
         font-size: 18px !important;
