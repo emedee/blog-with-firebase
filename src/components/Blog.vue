@@ -66,7 +66,7 @@
         <input type="text" class="typePost" v-model="post.body" placeholder="Type a post">
       </div>
       <div class="form-group">
-        <input type="date" class="addDate" v-model="post.date">
+        <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
       </div>
       <button class="btn btn-primary" @click="postItem">Post</button>
     </form>
@@ -149,10 +149,13 @@ export default {
 <style scoped>
 @media (max-width: 575.98px) {
     .text1{
-        font-size: 15px !important;
+        font-size: 18px !important;
+        font-family: serif !important;
     }
     .text2{
         font-size: 10px !important;
+        font-family: verdana !important;
+        color: rgba(189, 85, 45, 1) !important;
     }
     .text3{
         font-size: 18px !important;
