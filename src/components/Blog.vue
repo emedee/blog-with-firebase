@@ -98,15 +98,7 @@ export default {
             date: '',
             body: '',
         },
-        blogPost: [
-            {
-                caption: 'Proper UFO Maintenance',
-                date: 'October 15, 2018',
-                body: `Flying around the galaxy is all well and good, but if you have ever found yourself stranded 
-                    in the middle of an anti-matter cloud for a few millenia, you'll start wishing you had cared better for your UFO. 
-                    Here are my tricks to keep yourself at light speed.`
-            }
-        ],
+        blogPost: [],
       }
     },
     methods: {
