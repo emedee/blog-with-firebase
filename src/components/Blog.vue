@@ -121,7 +121,7 @@ export default {
         this.anotherDisplay = true;
       },
       postItem(){
-          this.blogPost.push(this.post);
+          this.blogPost.unshift(this.post);
           this.$http.post('', this.post)
               .then(function(res){
                 console.log(res);
@@ -138,7 +138,7 @@ export default {
                 .then(function(data){
                   const resultArray = [];
                   for (let key in data){
-                    resultArray.push(data[key]);
+                    resultArray.unshift(data[key]);
                   }
                   this.blogPost = resultArray;
                 })
