@@ -12,18 +12,18 @@
     <div class="div1">
         <ul class="ul"><b>
             <li><a href="#" @click="homePage">Home</a></li>||
-            <li><a href="#" @click="addPosts">Post</a></li>
+            <li><a href="#" @click="addPost">Post</a></li>
         </b></ul>
     </div>
     <hr class="line2">
     <ul class="push">
-        <li v-for="(post, i) in blogPost" :key="i">
+        <li v-for="(blog, i) in blogPost" :key="i">
             <div class="body1">
                 <div class="body2">
-                    <h1 class="text3">{{post.caption}}</h1>
-                    <p class="text4"><b>Posted {{post.date}}</b></p>
-                    <p class="text5">{{post.body}}</p>
-                    <button>Edit</button><button>Delete</button>
+                    <h1 class="text3">{{blog.caption}}</h1>
+                    <p class="text4"><b>Posted {{blog.date}}</b></p>
+                    <p class="text5">{{blog.body}}</p>
+                    <button @click="editPost(blog)">Edit</button><button @click="removePost(blog.id)">Delete</button>
                 </div>
             </div>
         </li>
@@ -53,7 +53,7 @@
     <div class="div1">
         <ul class="ul"><b>
             <li><a href="#" @click="homePage">Home</a></li>||
-            <li><a href="#" @click="addPosts">Post</a></li>
+            <li><a href="#" @click="addPost">Post</a></li>
         </b></ul>
     </div>
     <hr class="line2">
@@ -68,7 +68,7 @@
       <div class="form-group">
         <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
       </div>
-      <button class="btn btn-primary" @click="postItem">Post</button>
+      <button class="btn btn-primary" @click="updateItem" v-if="brdisplay">Update</button><button class="btn btn-primary" @click="postItem" v-else>Post</button>
     </form>
     <hr class="line">
     <hr class="line2" style="margin-top: -0.1em">
@@ -99,42 +99,92 @@ export default {
             body: '',
         },
         blogPost: [],
+        postUpdate: null,
+        editField: null,
+        brdisplay: false,
+        myUsers: [],
       }
     },
     methods: {
-      homePage(){
-        location.reload();
-        this.display = true;
-        this.anotherDisplay = false;
-      },
-      addPosts(){
-        
-        this.display = false;
-        this.anotherDisplay = true;
-      },
-      postItem(){
-          this.blogPost.unshift(this.post);
-          this.$http.post('', this.post)
-              .then(function(res){
-                console.log(res);
-              }, function(error){
-                console.log(error);
-              })
-      },
-    },
-    created(){
-        this.$http.get('')
+        homePage(){
+            location.reload();
+            this.display = true;
+            this.anotherDisplay = false;
+        },
+        showPosts(){
+            this.$http.get('')
                 .then(function(res){
                   return res.json();
                 })
                 .then(function(data){
                   const resultArray = [];
                   for (let key in data){
+                    const user = data[key]
+                    user.id = key
                     resultArray.unshift(data[key]);
                   }
                   this.blogPost = resultArray;
+                  console.log(this.blogPost)
                 })
+        },
+        reload(){
+            var timeout = setTimeout("location.reload(true);",800);
+                function resetTimeout() {
+                    clearTimeout(timeout);
+                    timeout = setTimeout("location.reload(true);",800);
+                }
+        },
+        addPost(){
+            this.display = false;
+            this.anotherDisplay = true;
+        },
+        postItem(){
+            this.blogPost.unshift(this.post);
+            this.$http.post('', this.post)
+                .then(function(res){
+                    console.log(res);
+                }, function(error){
+                    console.log(error);
+                })  
+            this.reload();  
+        },
+        removePost(i){
+            console.log(i)
+            // this.blogPost.splice(i, 1)
+            this.$http.delete(`https://blog-post-69f5f.firebaseio.com/data/${i}.json`)
+                    .then(function(res) {
+                    console.log(res);
+                }, function(error){
+                    console.log(error);
+                }) 
+                this.reload();
+        },
+        editPost(id){
+            this.post = id
+            this.brdisplay = true
+            this.postUpdate = this.blogPost.indexOf(id)
+            this.display = false
+            this.anotherDisplay = true
+        },
+        updateItem(){
+            // console.log(i)
+            this.brdisplay = false;
+            this.blogPost[this.postUpdate] = this.post;
+            this.display = true
+            this.anotherDisplay = false
+            // this.$http.put(`https://blog-post-69f5f.firebaseio.com/data/${i}.json`, this.post)
+            //     .then(function(res){
+            //         console.log(res);
+            //     }, function(error){
+            //         console.log(error);
+            //     })    
+            this.reload();
+        },
+    },
+    created(){
+        this.showPosts();
   }
+
 }
 </script>
 
