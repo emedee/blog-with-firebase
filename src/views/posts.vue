@@ -47,7 +47,7 @@ export default {
                 }, function(error){
                     console.log(error);
                 })  
-            // this.reload();  
+            this.reload();  
         },
     },
 
