@@ -79,7 +79,7 @@ export default {
                 }, function(error){
                     console.log(error);
                 }) 
-                this.reload();
+                // this.reload();
         },
         editPost(id){
             this.display = true
@@ -89,6 +89,8 @@ export default {
         },
         updateItem(i){
             this.blogPost[this.postUpdate] = this.post;
+            this.display = false
+            this.disp = true
             // for(let i = 0; i < this.blogPost.length; i++){
             //     const big = (this.blogPost[i].id);
             //     console.log(big)

@@ -11,7 +11,7 @@
             <div class="form-group">
                 <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
             </div>
-            <button class="btn btn-primary" @click.prevent="postItem">Post</button>
+            <button class="btn btn-primary" @click="postItem">Post</button>
         </form>
     </div>
 </template>
@@ -47,7 +47,7 @@ export default {
                 }, function(error){
                     console.log(error);
                 })  
-            this.reload();  
+            // this.reload();  
         },
     },
 
