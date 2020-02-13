@@ -1,24 +1,18 @@
 <template>
     <div class="bordr">
-        <div class="home" v-if="display">
-            <header>
-            <div class="header">
-                    <img src="../assets/images/logo.png" alt="logo" class="logo">
-                    <div class="header2"><b class="text1">Zorgblag's Blog</b><br>
-                    <b class="text2">My So-Called Light-Speed Life</b></div>
-                </div>
-            </header>
-            <hr class="line">
-            <div class="div1">
-                <ul class="ul"><b>
-                    <p v-if="myEdit">Edit Post</p>
-                    <li><router-link to= '/'>Home</router-link></li>||
-                    <li><router-link to= '/posts'>Post</router-link></li>
-                    
-                </b></ul>
+        <form class="frm">
+            <div class="form-group">
+                <input type="text" class="caption" v-model="post.caption" placeholder="Add a caption">
             </div>
-            <hr class="line2">
-        </div>
+            
+            <div class="form-group">
+                <input type="text" class="typePost" v-model="post.body" placeholder="Type a post">
+            </div>
+            <div class="form-group">
+                <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
+            </div>
+            <button class="btn btn-primary" @click.prevent="postItem">Post</button>
+        </form>
     </div>
 </template>
 
@@ -26,8 +20,6 @@
 export default {
     data(){
       return{
-        display: true,
-        anotherDisplay: false,
         updateStatus: false,
         post: {
             caption: '',
@@ -35,42 +27,17 @@ export default {
             body: '',
         },
         blogPost: [],
-        myEdit: false,
+        postUpdate: null,
         myUsers: [],
       }
     },
     methods: {
-        homePage(){
-            location.reload();
-            this.display = true;
-            this.anotherDisplay = false;
-        },
-        showPosts(){
-            this.$http.get('')
-                .then(function(res){
-                  return res.json();
-                })
-                .then(function(data){
-                  const resultArray = [];
-                  for (let key in data){
-                    const user = data[key]
-                    user.id = key
-                    resultArray.unshift(data[key]);
-                  }
-                  this.blogPost = resultArray;
-                  console.log(this.blogPost)
-                })
-        },
         reload(){
-            var timeout = setTimeout("location.reload(true);",800);
+            var timeout = setTimeout("location.reload(true);",1500);
                 function resetTimeout() {
                     clearTimeout(timeout);
-                    timeout = setTimeout("location.reload(true);",800);
+                    timeout = setTimeout("location.reload(true);",1500);
                 }
-        },
-        addPost(){
-            this.display = false;
-            this.anotherDisplay = true;
         },
         postItem(){
             this.blogPost.unshift(this.post);
@@ -82,46 +49,12 @@ export default {
                 })  
             this.reload();  
         },
-        removePost(i){
-            console.log(i)
-            this.$http.delete(`https://blog-post-69f5f.firebaseio.com/data/${i}.json`)
-                    .then(function(res) {
-                    console.log(res);
-                }, function(error){
-                    console.log(error);
-                }) 
-                this.reload();
-        },
-        editPost(id){
-            this.post = id
-            this.brdisplay = true
-            this.postUpdate = this.blogPost.indexOf(id)
-            this.display = false
-            this.anotherDisplay = true
-        },
-        updateItem(){
-            this.brdisplay = false;
-            this.blogPost[this.postUpdate] = this.post;
-            this.display = true
-            this.anotherDisplay = false
-            // this.$http.put(`https://blog-post-69f5f.firebaseio.com/data/${id}.json`, this.post)
-            //     .then(function(res){
-            //         console.log(res);
-            //     }, function(error){
-            //         console.log(error);
-            //     })    
-            // this.reload();
-        },
     },
-    created(){
-        this.showPosts();
-  }
 
 }
 </script>
-
 <style scoped>
-@media (max-width: 575.98px) {
+    @media (max-width: 575.98px) {
     .text1{
         font-size: 18px !important;
         font-family: serif !important;

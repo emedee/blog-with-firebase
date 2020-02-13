@@ -1,127 +1,28 @@
 <template>
     <div class="bordr">
-        <div class="home" v-if="display">
-            <header>
-            <div class="header">
-                    <img src="../assets/images/logo.png" alt="logo" class="logo">
-                    <div class="header2"><b class="text1">Zorgblag's Blog</b><br>
-                    <b class="text2">My So-Called Light-Speed Life</b></div>
-                </div>
-            </header>
-            <hr class="line">
-            <div class="div1">
-                <ul class="ul"><b>
-                    <p v-if="myEdit">Edit Post</p>
-                    <li><router-link to= '/'>Home</router-link></li>||
-                    <li><router-link to= '/posts'>Post</router-link></li>
-                    
-                </b></ul>
-            </div>
-            <hr class="line2">
+        <hr class="line">
+        <hr class="line2" style="margin-top: -0.1em">
+        <div class="footer">
+            <p class="footerdesc"><b>Legal disclaimer, copyright, etc</b></p>
+            <img src="../assets/images/icon1-1.png" alt="icon" class="icon2">
+            <img src="../assets/images/icon2.png" alt="icon" class="icon">
+            <img src="../assets/images/icon3.png" alt="icon" class="icon">
+            <img src="../assets/images/icon4.png" alt="icon" class="icon">
+            <img src="../assets/images/icon5.png" alt="icon" class="icon">
+            <img src="../assets/images/icon6.png" alt="icon" class="icon">
+            <img src="../assets/images/icon7.png" alt="icon" class="icon">
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    data(){
-      return{
-        display: true,
-        anotherDisplay: false,
-        updateStatus: false,
-        post: {
-            caption: '',
-            date: '',
-            body: '',
-        },
-        blogPost: [],
-        myEdit: false,
-        myUsers: [],
-      }
-    },
-    methods: {
-        homePage(){
-            location.reload();
-            this.display = true;
-            this.anotherDisplay = false;
-        },
-        showPosts(){
-            this.$http.get('')
-                .then(function(res){
-                  return res.json();
-                })
-                .then(function(data){
-                  const resultArray = [];
-                  for (let key in data){
-                    const user = data[key]
-                    user.id = key
-                    resultArray.unshift(data[key]);
-                  }
-                  this.blogPost = resultArray;
-                  console.log(this.blogPost)
-                })
-        },
-        reload(){
-            var timeout = setTimeout("location.reload(true);",800);
-                function resetTimeout() {
-                    clearTimeout(timeout);
-                    timeout = setTimeout("location.reload(true);",800);
-                }
-        },
-        addPost(){
-            this.display = false;
-            this.anotherDisplay = true;
-        },
-        postItem(){
-            this.blogPost.unshift(this.post);
-            this.$http.post('', this.post)
-                .then(function(res){
-                    console.log(res);
-                }, function(error){
-                    console.log(error);
-                })  
-            this.reload();  
-        },
-        removePost(i){
-            console.log(i)
-            this.$http.delete(`https://blog-post-69f5f.firebaseio.com/data/${i}.json`)
-                    .then(function(res) {
-                    console.log(res);
-                }, function(error){
-                    console.log(error);
-                }) 
-                this.reload();
-        },
-        editPost(id){
-            this.post = id
-            this.brdisplay = true
-            this.postUpdate = this.blogPost.indexOf(id)
-            this.display = false
-            this.anotherDisplay = true
-        },
-        updateItem(){
-            this.brdisplay = false;
-            this.blogPost[this.postUpdate] = this.post;
-            this.display = true
-            this.anotherDisplay = false
-            // this.$http.put(`https://blog-post-69f5f.firebaseio.com/data/${id}.json`, this.post)
-            //     .then(function(res){
-            //         console.log(res);
-            //     }, function(error){
-            //         console.log(error);
-            //     })    
-            // this.reload();
-        },
-    },
-    created(){
-        this.showPosts();
-  }
-
+    
 }
 </script>
 
 <style scoped>
-@media (max-width: 575.98px) {
+    @media (max-width: 575.98px) {
     .text1{
         font-size: 18px !important;
         font-family: serif !important;

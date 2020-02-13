@@ -1,33 +1,39 @@
 <template>
     <div class="bordr">
-        <div class="home" v-if="display">
-            <header>
-            <div class="header">
-                    <img src="../assets/images/logo.png" alt="logo" class="logo">
-                    <div class="header2"><b class="text1">Zorgblag's Blog</b><br>
-                    <b class="text2">My So-Called Light-Speed Life</b></div>
+        <div v-if="display">
+            <form class="frm">
+                <div class="form-group">
+                    <input type="text" class="caption" v-model="post.caption" placeholder="Add a caption">
                 </div>
-            </header>
-            <hr class="line">
-            <div class="div1">
-                <ul class="ul"><b>
-                    <p v-if="myEdit">Edit Post</p>
-                    <li><router-link to= '/'>Home</router-link></li>||
-                    <li><router-link to= '/posts'>Post</router-link></li>
-                    
-                </b></ul>
-            </div>
-            <hr class="line2">
+                
+                <div class="form-group">
+                    <input type="text" class="typePost" v-model="post.body" placeholder="Type a post">
+                </div>
+                <div class="form-group">
+                    <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
+                </div>
+                <button class="btn btn-primary" @click.prevent="updateItem()">Update</button>
+            </form>
         </div>
-    </div>
+    <ul class="push" v-if="disp">
+        <li v-for="(blog, i) in blogPost" :key="i">
+            <div class="body1">
+                <div class="body2">
+                    <h1 class="text3">{{blog.caption}}</h1>
+                    <p class="text4"><b>Posted {{blog.date}}</b></p>
+                    <p class="text5">{{blog.body}}</p>
+                    <button @click="editPost(blog)">Edit</button><button @click="removePost(blog.id)">Delete</button>
+                </div>
+            </div>
+        </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 export default {
     data(){
       return{
-        display: true,
-        anotherDisplay: false,
         updateStatus: false,
         post: {
             caption: '',
@@ -35,16 +41,13 @@ export default {
             body: '',
         },
         blogPost: [],
-        myEdit: false,
+        postUpdate: null,
         myUsers: [],
+        display: false,
+        disp: true,
       }
     },
     methods: {
-        homePage(){
-            location.reload();
-            this.display = true;
-            this.anotherDisplay = false;
-        },
         showPosts(){
             this.$http.get('')
                 .then(function(res){
@@ -58,7 +61,7 @@ export default {
                     resultArray.unshift(data[key]);
                   }
                   this.blogPost = resultArray;
-                  console.log(this.blogPost)
+                //   console.log(this.blogPost)
                 })
         },
         reload(){
@@ -67,20 +70,6 @@ export default {
                     clearTimeout(timeout);
                     timeout = setTimeout("location.reload(true);",800);
                 }
-        },
-        addPost(){
-            this.display = false;
-            this.anotherDisplay = true;
-        },
-        postItem(){
-            this.blogPost.unshift(this.post);
-            this.$http.post('', this.post)
-                .then(function(res){
-                    console.log(res);
-                }, function(error){
-                    console.log(error);
-                })  
-            this.reload();  
         },
         removePost(i){
             console.log(i)
@@ -93,23 +82,25 @@ export default {
                 this.reload();
         },
         editPost(id){
-            this.post = id
-            this.brdisplay = true
-            this.postUpdate = this.blogPost.indexOf(id)
-            this.display = false
-            this.anotherDisplay = true
-        },
-        updateItem(){
-            this.brdisplay = false;
-            this.blogPost[this.postUpdate] = this.post;
             this.display = true
-            this.anotherDisplay = false
-            // this.$http.put(`https://blog-post-69f5f.firebaseio.com/data/${id}.json`, this.post)
+            this.disp = false
+            this.post = id
+            this.postUpdate = this.blogPost.indexOf(id)
+        },
+        updateItem(i){
+            this.blogPost[this.postUpdate] = this.post;
+            // for(let i = 0; i < this.blogPost.length; i++){
+            //     const big = (this.blogPost[i].id);
+            //     console.log(big)
+            //     this.$http.put(`https://blog-post-69f5f.firebaseio.com/data/${i}.json`, this.post)
             //     .then(function(res){
             //         console.log(res);
             //     }, function(error){
             //         console.log(error);
-            //     })    
+            //     })  
+            // }
+            
+              
             // this.reload();
         },
     },
