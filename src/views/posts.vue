@@ -49,6 +49,7 @@ export default {
                 }, function(error){
                     console.log(error);
                 })  
+                this.post = ''
             // this.reload();  
             this.success = true
         },
