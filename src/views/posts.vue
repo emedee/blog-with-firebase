@@ -11,7 +11,7 @@
             <div class="form-group">
                 <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
             </div>
-            <button class="btn btn-primary" @click="postItem">Post</button>
+            <button class="btn btn-primary" @click.prevent="postItem">Post</button>
             <b><p class="text5" v-if="success">Your Post has been Updated</p></b>
         </form>
     </div>
@@ -34,13 +34,13 @@ export default {
       }
     },
     methods: {
-        reload(){
-            var timeout = setTimeout("location.reload(true);",1500);
-                function resetTimeout() {
-                    clearTimeout(timeout);
-                    timeout = setTimeout("location.reload(true);",1500);
-                }
-        },
+        // reload(){
+        //     var timeout = setTimeout("location.reload(true);",1500);
+        //         function resetTimeout() {
+        //             clearTimeout(timeout);
+        //             timeout = setTimeout("location.reload(true);",1500);
+        //         }
+        // },
         postItem(){
             this.blogPost.unshift(this.post);
             this.$http.post('', this.post)
@@ -49,7 +49,6 @@ export default {
                 }, function(error){
                     console.log(error);
                 })  
-            // this.reload();  
             this.success = true
             this.post = '';
         },
