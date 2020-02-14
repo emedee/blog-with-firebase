@@ -61,7 +61,6 @@ export default {
                     resultArray.unshift(data[key]);
                   }
                   this.blogPost = resultArray;
-                //   console.log(this.blogPost)
                 })
         },
         reload(){

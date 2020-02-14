@@ -11,7 +11,8 @@
             <div class="form-group">
                 <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
             </div>
-            <button class="btn btn-primary" @click="postItem">Post</button>
+            <button class="btn btn-primary" @click.prevent="postItem">Post</button>
+            <p class="text3" v-if="success">Your Post has been Updated</p>
         </form>
     </div>
 </template>
@@ -29,6 +30,7 @@ export default {
         blogPost: [],
         postUpdate: null,
         myUsers: [],
+        success: false
       }
     },
     methods: {
@@ -47,7 +49,8 @@ export default {
                 }, function(error){
                     console.log(error);
                 })  
-            this.reload();  
+            // this.reload();  
+            this.success = true
         },
     },
 
