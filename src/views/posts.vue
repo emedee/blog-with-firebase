@@ -51,6 +51,7 @@ export default {
                 })  
             // this.reload();  
             this.success = true
+            this.post = '';
         },
     },
 
