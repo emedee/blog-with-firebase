@@ -12,7 +12,7 @@
                 <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
             </div>
             <button class="btn btn-primary" @click.prevent="postItem">Post</button>
-            <p class="text3" v-if="success">Your Post has been Updated</p>
+            <b><p class="text5" v-if="success">Your Post has been Updated</p></b>
         </form>
     </div>
 </template>
