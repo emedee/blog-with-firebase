@@ -12,12 +12,13 @@
                 <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
             </div>
             <button class="btn btn-primary" @click.prevent="postItem">Post</button>
-            <b><p class="text5" v-if="success">Your Post has been Updated</p></b>
+            <!-- <b><p class="text5" v-if="success">Your Post has been Updated</p></b> -->
         </form>
     </div>
 </template>
 
 <script>
+import sweetalert from 'sweetalert'
 export default {
     data(){
       return{
@@ -51,6 +52,7 @@ export default {
                 })  
             this.success = true
             this.post = '';
+            swal("", "Your post has been Uploaded!", "success");
         },
     },
 

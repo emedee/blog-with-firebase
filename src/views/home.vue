@@ -64,10 +64,10 @@ export default {
                 })
         },
         reload(){
-            var timeout = setTimeout("location.reload(true);",800);
+            var timeout = setTimeout("location.reload(true);",1500);
                 function resetTimeout() {
                     clearTimeout(timeout);
-                    timeout = setTimeout("location.reload(true);",800);
+                    timeout = setTimeout("location.reload(true);",1500);
                 }
         },
         removePost(i){
@@ -79,6 +79,7 @@ export default {
                     console.log(error);
                 }) 
                 this.reload();
+                swal("", "You deleted this post!", "success");
         },
         editPost(id){
             this.display = true
