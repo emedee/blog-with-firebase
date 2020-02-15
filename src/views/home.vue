@@ -1,16 +1,6 @@
 <template>
     <div class="bordr">
-    <ul class="push">
-        <li v-for="(blog, i) in blogPost" :key="i">
-            <div class="body1" v-if="disp">
-                <div class="body2">
-                    <h1 class="text3">{{blog.caption}}</h1>
-                    <p class="text4"><b>Posted {{blog.date}}</b></p>
-                    <p class="text5">{{blog.body}}</p>
-                    <button @click="editPost(blog)">Edit</button><button @click="removePost(blog.id)">Delete</button>
-                </div>
-            </div>
-            <div v-else>
+        <div v-if="display">
             <form class="frm">
                 <div class="form-group">
                     <input type="text" class="caption" v-model="post.caption" placeholder="Add a caption">
@@ -22,9 +12,19 @@
                 <div class="form-group">
                     <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
                 </div>
-                <button class="btn btn-primary" @click.prevent="updateItem(blog.id)">Update</button>
+                <button class="btn btn-primary" @click.prevent="updateItem(post.id)">Update</button>
             </form>
         </div>
+    <ul class="push">
+        <li v-for="(blog, i) in blogPost" :key="i">
+            <div class="body1" v-if="disp">
+                <div class="body2">
+                    <h1 class="text3">{{blog.caption}}</h1>
+                    <p class="text4"><b>Posted {{blog.date}}</b></p>
+                    <p class="text5">{{blog.body}}</p>
+                    <button @click="editPost(blog)">Edit</button><button @click="removePost(blog.id)">Delete</button>
+                </div>
+            </div>
         </li>
     </ul>
   </div>
@@ -45,6 +45,7 @@ export default {
         myUsers: [],
         // display: false,
         disp: true,
+        display: false
       }
     },
     methods: {
@@ -83,6 +84,7 @@ export default {
         },
         editPost(id){
             this.disp = false
+            this.display = true
             this.post = id
             this.postUpdate = this.blogPost.indexOf(id)
         },
