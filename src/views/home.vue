@@ -1,6 +1,16 @@
 <template>
     <div class="bordr">
-        <div v-if="display">
+    <ul class="push">
+        <li v-for="(blog, i) in blogPost" :key="i">
+            <div class="body1" v-if="disp">
+                <div class="body2">
+                    <h1 class="text3">{{blog.caption}}</h1>
+                    <p class="text4"><b>Posted {{blog.date}}</b></p>
+                    <p class="text5">{{blog.body}}</p>
+                    <button @click="editPost(blog)">Edit</button><button @click="removePost(blog.id)">Delete</button>
+                </div>
+            </div>
+            <div v-else>
             <form class="frm">
                 <div class="form-group">
                     <input type="text" class="caption" v-model="post.caption" placeholder="Add a caption">
@@ -12,19 +22,9 @@
                 <div class="form-group">
                     <input type="date" class="addDate" v-model="post.date" placeholder="Today's Date">
                 </div>
-                <button class="btn btn-primary" @click.prevent="updateItem()">Update</button>
+                <button class="btn btn-primary" @click.prevent="updateItem(blog.id)">Update</button>
             </form>
         </div>
-    <ul class="push" v-if="disp">
-        <li v-for="(blog, i) in blogPost" :key="i">
-            <div class="body1">
-                <div class="body2">
-                    <h1 class="text3">{{blog.caption}}</h1>
-                    <p class="text4"><b>Posted {{blog.date}}</b></p>
-                    <p class="text5">{{blog.body}}</p>
-                    <button @click="editPost(blog)">Edit</button><button @click="removePost(blog.id)">Delete</button>
-                </div>
-            </div>
         </li>
     </ul>
   </div>
@@ -43,7 +43,7 @@ export default {
         blogPost: [],
         postUpdate: null,
         myUsers: [],
-        display: false,
+        // display: false,
         disp: true,
       }
     },
@@ -82,7 +82,6 @@ export default {
                 swal("", "You deleted this post!", "success");
         },
         editPost(id){
-            this.display = true
             this.disp = false
             this.post = id
             this.postUpdate = this.blogPost.indexOf(id)
@@ -91,15 +90,16 @@ export default {
             this.blogPost[this.postUpdate] = this.post;
             this.display = false
             this.disp = true
+            console.log(i)
             // for(let i = 0; i < this.blogPost.length; i++){
             //     const big = (this.blogPost[i].id);
             //     console.log(big)
-            //     this.$http.put(`https://blog-post-69f5f.firebaseio.com/data/${i}.json`, this.post)
-            //     .then(function(res){
-            //         console.log(res);
-            //     }, function(error){
-            //         console.log(error);
-            //     })  
+                this.$http.put(`https://blog-post-69f5f.firebaseio.com/data/${i}.json`, this.post)
+                .then(function(res){
+                    console.log(res);
+                }, function(error){
+                    console.log(error);
+                })  
             // }
             
               
